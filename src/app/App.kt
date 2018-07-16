@@ -16,7 +16,7 @@ class App : RComponent<RProps, RState>() {
         div("App-header") {
             logo()
             h1 {
-                +"Wdelcome to React with Kotlin"
+                +"Welcome to React with Kotlin"
             }
         }
         p("App-intro") {

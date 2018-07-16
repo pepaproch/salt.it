@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/salt.iml" filepath="$PROJECT_DIR$/salt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/saltit.iml" filepath="$PROJECT_DIR$/saltit.iml" />
     </modules>
   </component>
 </project>
