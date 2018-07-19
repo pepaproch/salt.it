@@ -10,6 +10,8 @@ import react.dom.div
 import react.dom.h1
 import react.dom.p
 import ticker.ticker
+import editor.quill
+import navigation.appBarr
 
 class App : RComponent<RProps, RState>() {
     override fun RBuilder.render() {
@@ -26,6 +28,11 @@ class App : RComponent<RProps, RState>() {
         }
         p("App-ticker") {
             ticker()
+        }
+        quill("ahoj")
+
+        p{
+            appBarr("Test")
         }
     }
 }
