@@ -104,9 +104,7 @@ class Header(props: ReactAppBarProps) : RComponent<ReactAppBarProps, AppBarrStat
 
 }
 
- class typo(override var title: String) : ReactAppBarTypography {
-
-}
+ class typo(override var title: String) : ReactAppBarTypography
 
 fun RBuilder.header(title: String) = child(Header::class) {
     attrs.title = title
