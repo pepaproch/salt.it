@@ -2,51 +2,122 @@ package navigation
 
 import react.*
 import react.dom.div
+import react.dom.h2
+
+
+@JsModule("@material-ui/core/AppBar")
+external val reactAppBar: DefaultWraper<AppBarrProps>
+
+
+@JsModule("@material-ui/core/Toolbar")
+external val reactToolBar: DefaultWraper<RProps>
+
+
+@JsModule("@material-ui/core/IconButton")
+external val reactIconButton: DefaultWraper<RProps>
+
+@JsModule("@material-ui/core/Button")
+external val reactButton: DefaultWraper<RProps>
 
 
 
+@JsModule("@material-ui/core/Typography")
+external val reactTypography: DefaultWraper<ReactAppBarTypography>
 
-@JsModule("@material-ui/core")
-external val reactAppBar: RClass<ReactAppBarProps>
+
+@JsModule("@material-ui/icons/Menu")
+external val reactMenuIcon: DefaultWraper<RProps>
+
+abstract class DefaultWraper<T : RProps> : RClass<T> {
+
+     abstract var default : DefaultWraper<T>
+}
+
 
 external interface ReactAppBarProps : RProps {
     var title: String
-    var onChange: (String) -> Unit
+    var typography :ReactAppBarTypography
+
+
 }
+
+
+external interface ReactAppBarTypography: RProps {
+    var title: String
+
+}
+
+
+
 
 interface AppBarrProps : RProps {
     var title: String
+    var position : String
+    var color : String
 }
 
 interface AppBarrState : RState {
-    var title: String
+
+
+
+
 }
 
+class AppNavigation(props:ReactAppBarProps) : RComponent<ReactAppBarProps, AppBarrState>(props) {
 
-class AppBar(props:AppBarrProps) : RComponent<AppBarrProps, AppBarrState>(props) {
+    private val appBar  =  reactAppBar.default
+    private val  toolBar = reactToolBar.default
+    private val iconButton = reactIconButton.default
+    private val menuIcon = reactMenuIcon.default
+    private  val button = reactButton.default
+    private  val typoography = reactTypography.default
 
     override fun AppBarrState.init(props: AppBarrProps) {
-       title = props.title
+
+
     }
 
     private fun handleChange(value: String) {
-        setState {
-            title = value
-        }
+
         console.log(value)
     }
 
     override fun RBuilder.render() {
-        div {
-       reactAppBar {
-           attrs {
-               title = state.title
-           }
-       }
+
+        appBar {
+            attrs {AppBarrProps
+                position = "static"
+                color = "defaul"
+                title = props.title
+            }
+          toolBar {
+              iconButton {
+                  menuIcon {}
+              }
+              typoography {
+                + props.title
+                }
+
+
+          }
         }
+
+
+
+
+
     }
+
 }
 
-fun RBuilder.appBarr(title: String) = child(AppBar::class) {
+fun RBuilder.appBarr(title: String) = child(AppNavigation::class) {
     attrs.title = title
+    attrs.typography = {
+        attrs {
+            title = "jok"
+        }
+    }
+
+
+
 }
