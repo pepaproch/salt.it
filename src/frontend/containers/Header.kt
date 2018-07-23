@@ -1,13 +1,10 @@
-package navigation
+package frontend.containers
 
 import react.*
-import react.dom.div
-import react.dom.h2
 
 
 @JsModule("@material-ui/core/AppBar")
 external val reactAppBar: DefaultWraper<AppBarrProps>
-
 
 @JsModule("@material-ui/core/Toolbar")
 external val reactToolBar: DefaultWraper<RProps>
@@ -28,6 +25,7 @@ external val reactTypography: DefaultWraper<ReactAppBarTypography>
 @JsModule("@material-ui/icons/Menu")
 external val reactMenuIcon: DefaultWraper<RProps>
 
+
 abstract class DefaultWraper<T : RProps> : RClass<T> {
 
      abstract var default : DefaultWraper<T>
@@ -36,7 +34,7 @@ abstract class DefaultWraper<T : RProps> : RClass<T> {
 
 external interface ReactAppBarProps : RProps {
     var title: String
-    var typography :ReactAppBarTypography
+    var typography : ReactAppBarTypography
 
 
 }
@@ -57,13 +55,10 @@ interface AppBarrProps : RProps {
 }
 
 interface AppBarrState : RState {
-
-
-
-
+    var pageTitle : String
 }
 
-class AppNavigation(props:ReactAppBarProps) : RComponent<ReactAppBarProps, AppBarrState>(props) {
+class Header(props: ReactAppBarProps) : RComponent<ReactAppBarProps, AppBarrState>(props) {
 
     private val appBar  =  reactAppBar.default
     private val  toolBar = reactToolBar.default
@@ -72,20 +67,19 @@ class AppNavigation(props:ReactAppBarProps) : RComponent<ReactAppBarProps, AppBa
     private  val button = reactButton.default
     private  val typoography = reactTypography.default
 
-    override fun AppBarrState.init(props: AppBarrProps) {
-
+    override fun AppBarrState.init(props: ReactAppBarProps) {
+        setState {
+            pageTitle = props.title
+        }
 
     }
 
-    private fun handleChange(value: String) {
 
-        console.log(value)
-    }
 
     override fun RBuilder.render() {
 
         appBar {
-            attrs {AppBarrProps
+            attrs {
                 position = "static"
                 color = "defaul"
                 title = props.title
@@ -110,14 +104,14 @@ class AppNavigation(props:ReactAppBarProps) : RComponent<ReactAppBarProps, AppBa
 
 }
 
-fun RBuilder.appBarr(title: String) = child(AppNavigation::class) {
+ class typo(override var title: String) : ReactAppBarTypography {
+
+}
+
+fun RBuilder.header(title: String) = child(Header::class) {
     attrs.title = title
-    attrs.typography = {
-        attrs {
-            title = "jok"
-        }
+    attrs.typography = typo("test")
     }
 
 
 
-}

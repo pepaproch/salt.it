@@ -7,7 +7,8 @@
     "@material-ui/icons": "^1.1.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-quill": "^1.3.1"
+    "react-quill": "^1.3.1",
+    "save": "^2.3.2"
   },
   "devDependencies": {
     "@jetbrains/gen-idea-libs": "^1.0.10",
