@@ -1,6 +1,6 @@
 package app
 
-import logo.logo
+
 import react.RBuilder
 import react.RComponent
 import react.RProps
