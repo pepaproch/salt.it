@@ -1,31 +1,27 @@
 .Logo {
-  position: relative;
+
   display: inline-block;
 
 }
 
 .Logo-react {
   animation: Logo-spin infinite 10s linear;
-  height: 100%;
+
 }
 
 .Logo-kotlin {
   opacity: 0;
   animation: Logo-spin infinite 10s 5s linear;
-  height: 72%;
-  position: absolute;
-  top: 14%;
-  right: 24%;
+  height: 100%;
+
 }
 
 
 .Logo-logo {
   opacity: 0;
   animation: Logo-spin infinite 10s 5s linear;
-  height: 72%;
-  position: absolute;
-  top: 25%;
-  right: 24%;
+  height: 100%;
+
 }
 
 @keyframes Logo-spin {

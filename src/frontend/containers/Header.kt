@@ -1,46 +1,47 @@
 package frontend.containers
 
-import kotlinext.js.Object
-import kotlinx.css.Color
-import kotlinx.css.padding
-import kotlinx.css.px
+
+import kotlinx.css.*
+import kotlinx.html.DIV
 import logo.logo
 import react.*
-import styled.StyleSheet
-import styled.StyledComponents
+import styled.*
+import kotlin.reflect.KClass
 
 
 @JsModule("@material-ui/core/AppBar")
-external val reactAppBar: DefaultWraper<AppBarrProps>
+external val reactAppBar: RClassWithDefault<AppBarrProps>
 
 @JsModule("@material-ui/core/Toolbar")
-external val reactToolBar: DefaultWraper<RProps>
+external val reactToolBar: RClassWithDefault<RProps>
 
 
 @JsModule("@material-ui/core/IconButton")
-external val reactIconButton: DefaultWraper<RProps>
+external val reactIconButton: RClassWithDefault<RProps>
 
 @JsModule("@material-ui/core/Button")
-external val reactButton: DefaultWraper<RProps>
+external val reactButton: RClassWithDefault<RProps>
 
 
 @JsModule("@material-ui/core/Typography")
-external val reactTypography: DefaultWraper<ReactAppBarTypography>
+external val reactTypography: RClassWithDefault<ReactAppBarTypography>
 
 
 @JsModule("@material-ui/icons/Menu")
-external val reactMenuIcon: DefaultWraper<RProps>
+external val reactMenuIcon: RClassWithDefault<RProps>
 
 
-abstract class DefaultWraper<T : RProps> : RClass<T> {
+abstract class RClassWithDefault<T : RProps> : RClass<T>, KClass<Any> {
 
-    abstract var default: DefaultWraper<T>
+    abstract var default: RClassWithDefault<T>
+
 }
 
 
 external interface ReactAppBarProps : RProps {
     var title: String
     var typography: ReactAppBarTypography
+
 
 
 }
@@ -51,15 +52,12 @@ external interface ReactAppBarTypography : RProps {
     var variant: String
     var align: String
     var className: String
-    var classes : String
+    var color: String
 
 }
 
-var css: Any = object {
-    var flex: Any = object {
-        val flexGrow: String = "1"
-    }
-}
+
+
 
 
 interface AppBarrProps : RProps {
@@ -70,6 +68,7 @@ interface AppBarrProps : RProps {
 
 interface AppBarrState : RState {
     var pageTitle: String
+
 }
 
 class Header(props: ReactAppBarProps) : RComponent<ReactAppBarProps, AppBarrState>(props) {
@@ -82,46 +81,56 @@ class Header(props: ReactAppBarProps) : RComponent<ReactAppBarProps, AppBarrStat
     private val typoography = reactTypography.default
 
     override fun AppBarrState.init(props: ReactAppBarProps) {
-        setState {
+
             pageTitle = props.title
-        }
+
+
 
     }
 
 
     override fun RBuilder.render() {
 
-        appBar {
+        reactAppBar.default {
             attrs {
                 position = "static"
                 color = "default"
                 title = props.title
+
             }
-            toolBar {
+            reactToolBar.default {
                 iconButton {
                     menuIcon {
 
                     }
                 }
 
-                typoography {
+                reactTypography.default {
 
 
                     attrs {
 
                         align = props.typography.align
                         variant = props.typography.variant
+                        color = props.typography.color
 
+                        }
 
+                    styledSpan {
+                        css {
 
+                            put("display", "block" )
+                        }
+
+                        +"This should be flex" }
                     }
-                    +"This should be Styled"
-
-
-                }
 
 
                 logo()
+                }
+
+
+
 
             }
 
@@ -131,22 +140,18 @@ class Header(props: ReactAppBarProps) : RComponent<ReactAppBarProps, AppBarrStat
     }
 
 
-}
 
-class typo(override var title: String = "Page Title", override var variant: String = "title", override var align: String = "left", override var className: String = ComponentStyles.name, override var classes: String) : ReactAppBarTypography
 
-object ComponentStyles : StyleSheet("ComponentStyles", isStatic = true) {
-    val wrapper by css {
-        padding(vertical = 16.px)
-        backgroundColor = Color.green
-    }
-}
+class typo(override var title: String = "Page Title", override var variant: String = "title", override var align: String = "left", override var color: String = "primary", override var className: String) : ReactAppBarTypography
+
 
 
 fun RBuilder.header(title: String) = child(Header::class) {
-    ComponentStyles.inject()
+
     attrs.title = title
-    attrs.typography = typo(align = "right" , classes = ComponentStyles.name)
+    attrs.typography = typo(align = "right" ,color = "primary" , className = "ReactTypoGraphy")
+
+
 
 }
 
