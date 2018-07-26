@@ -7,10 +7,11 @@ import react.RProps
 import react.RState
 
 import frontend.containers.header
+import frontend.containers.typography
 
 class App : RComponent<RProps, RState>() {
     override fun RBuilder.render() {
-            header("Test")
+           typography()
 
     }
 }

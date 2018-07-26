@@ -144,7 +144,7 @@ object ComponentStyles : StyleSheet("ComponentStyles", isStatic = true) {
 
 
 fun RBuilder.header(title: String) = child(Header::class) {
-    ComponentStyles.inject()
+
     attrs.title = title
     attrs.typography = typo(align = "right" , classes = ComponentStyles.name)
 
