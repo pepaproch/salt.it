@@ -1,10 +1,12 @@
 package frontend.containers
 
 
+import frontend.components.MuiTypography
 import kotlinx.css.*
 import kotlinx.html.DIV
 import logo.logo
 import react.*
+import react.dom.WithClassName
 import styled.*
 import kotlin.reflect.KClass
 
@@ -47,11 +49,11 @@ external interface ReactAppBarProps : RProps {
 }
 
 
-external interface ReactAppBarTypography : RProps {
+external interface ReactAppBarTypography : WithClassName {
     var title: String
     var variant: String
     var align: String
-    var className: String
+    override var className: String?
     var color: String
 
 }
@@ -80,6 +82,7 @@ class Header(props: ReactAppBarProps) : RComponent<ReactAppBarProps, AppBarrStat
     private val button = reactButton.default
     private val typoography = reactTypography.default
 
+
     override fun AppBarrState.init(props: ReactAppBarProps) {
 
             pageTitle = props.title
@@ -105,25 +108,9 @@ class Header(props: ReactAppBarProps) : RComponent<ReactAppBarProps, AppBarrStat
                     }
                 }
 
-                reactTypography.default {
+                styled(reactTypography )
+            }
 
-
-                    attrs {
-
-                        align = props.typography.align
-                        variant = props.typography.variant
-                        color = props.typography.color
-
-                        }
-
-                    styledSpan {
-                        css {
-
-                            put("display", "block" )
-                        }
-
-                        +"This should be flex" }
-                    }
 
 
                 logo()
@@ -134,7 +121,7 @@ class Header(props: ReactAppBarProps) : RComponent<ReactAppBarProps, AppBarrStat
 
             }
 
-        }
+
 
 
     }
@@ -142,7 +129,7 @@ class Header(props: ReactAppBarProps) : RComponent<ReactAppBarProps, AppBarrStat
 
 
 
-class typo(override var title: String = "Page Title", override var variant: String = "title", override var align: String = "left", override var color: String = "primary", override var className: String) : ReactAppBarTypography
+class typo(override var title: String = "Page Title", override var variant: String = "title", override var align: String = "left", override var color: String = "primary", override var className: String?) : ReactAppBarTypography
 
 
 
