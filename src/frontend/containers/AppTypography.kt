@@ -20,9 +20,9 @@ external val typography: RClass<RProps>
 class AppTypography(props: RProps) : RComponent<RProps, RState>(props) {
     override fun RBuilder.render() {
 
-        var t : RComponent<RProps,RState> = typography.asDynamic().default as RComponent<RProps,RState>
+        var tu: RClass<RProps> = typography.asDynamic().default as RClass<RProps>
 
-        t {
+        tu {
 
             +"TYP"
         }
