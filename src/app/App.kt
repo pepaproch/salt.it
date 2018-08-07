@@ -2,7 +2,7 @@ package app
 
 
 
-import frontend.components.mUiTypography
+
 import react.RBuilder
 import react.RComponent
 import react.RProps
@@ -13,10 +13,7 @@ import react.dom.p
 
 class App : RComponent<RProps, RState>() {
     override fun RBuilder.render() {
-        p {
-
-        }
-
+        header()
 
     }
 }

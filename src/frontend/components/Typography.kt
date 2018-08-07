@@ -11,25 +11,39 @@ import styled.styled
 import styled.styledDiv
 
 @JsModule("@material-ui/core/Typography")
-external val reactTypography: RClassWithDefault<RProps>
+external val reactTypography: RClassWithDefault<MuiTypographyProps>
 
-interface MuiTypographyProps :RProps  {
-    var  title :String
+interface MuiTypographyProps : RProps {
+    var text: String
+    var variant: String
+    var color: String
+
 }
 
-class MuiTypography(props: MuiTypographyProps) : RComponent<MuiTypographyProps, RState>(props = props) {
-    val css = CSSBuilder()
+enum class MuiTypographyColor(val value: String) {
+    INHERIT("inherit"),
+    PRIMARY("primary"),
+    TEXT_SECONDARY("textSecondary"),
+    SECONDARY("secondary"),
+    ERROR("ERROR"),
+    DEFAULT("default")
+
+}
+
+enum class MuiTypographyPossition(val value : String) {
+    STATIC("static")
+}
+class MuiTypography(props: MuiTypographyProps) : RComponent<MuiTypographyProps, RState>(props) {
 
     override fun RBuilder.render() {
-
         reactTypography.default {
-
+            attrs {
+                variant = props.variant
+                color = props.color
+            }
+            +props.text
         }
     }
 
 }
 
-fun RBuilder.mUiTypography(title :String) = child(MuiTypography::class) {
-
-attrs.title = title
-}
