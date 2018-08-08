@@ -1,7 +1,10 @@
 package frontend.components
 
 import frontend.containers.*
+import kotlinext.js.JsObject
+import kotlinext.js.Object
 import kotlinx.css.CSSBuilder
+import kotlinx.css.TextAlign
 import react.RBuilder
 import react.RComponent
 import react.RProps
@@ -17,6 +20,8 @@ interface MuiTypographyProps : RProps {
     var text: String
     var variant: String
     var color: String
+    var style : dynamic
+    var align : String
 
 }
 
@@ -36,10 +41,13 @@ enum class MuiTypographyPossition(val value : String) {
 class MuiTypography(props: MuiTypographyProps) : RComponent<MuiTypographyProps, RState>(props) {
 
     override fun RBuilder.render() {
+        console.log(props.style)
         reactTypography.default {
             attrs {
                 variant = props.variant
                 color = props.color
+                style = props.style
+                align = props.align
             }
             +props.text
         }
