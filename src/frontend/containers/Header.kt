@@ -8,9 +8,7 @@ import kotlinx.css.*
 
 
 import react.*
-import styled.StyleSheet
-import styled.css
-import styled.styledDiv
+import styled.*
 
 import kotlin.reflect.KClass
 
@@ -26,7 +24,7 @@ external val reactToolBar: RClassWithDefault<RProps>
 external val reactIconButton: RClassWithDefault<RProps>
 
 @JsModule("@material-ui/core/Button")
-external val reactButton: RClassWithDefault<RProps>
+external val reactButton: RClassWithDefault<DrawerButtonProps>
 
 
 
@@ -42,11 +40,17 @@ abstract class RClassWithDefault<T : RProps> : RClass<T>, KClass<Any> {
 
 }
 
+interface DrawerButtonProps : RProps {
+    var onClick: () -> Unit
 
-interface AppBarrProps : RProps {
+}
+
+interface AppBarrProps : StyledProps {
     var position: String
     var color: String
     var pageTitle: String
+    var openDraver: () -> Unit
+
 }
 
 interface AppBarrState : RState {
@@ -61,6 +65,14 @@ object ComponentStyles : StyleSheet("HeaderStyles", isStatic = true) {
         width = LinearDimension("100%")
         display = Display.flex
     }
+
+var drawerWidth : LinearDimension = LinearDimension("200px")
+
+  val  appBarShift by css {
+        marginLeft = LinearDimension("100px")
+        width = drawerWidth
+
+    }
 }
 
 
@@ -68,7 +80,7 @@ object ComponentStyles : StyleSheet("HeaderStyles", isStatic = true) {
 
 class Header(props: AppBarrProps) : RComponent<AppBarrProps, AppBarrState>(props) {
 
-    private val appBar = reactAppBar.default
+    private val appBar = styled(reactAppBar.default)
 
 
     override fun AppBarrState.init(props: AppBarrProps) {
@@ -81,7 +93,10 @@ class Header(props: AppBarrProps) : RComponent<AppBarrProps, AppBarrState>(props
 
     override fun RBuilder.render() {
 
-        reactAppBar.default {
+        appBar {
+            css {
+                + ComponentStyles.appBarShift
+            }
             attrs {
                 position = "static"
                 color = MuiTypographyColor.DEFAULT.value

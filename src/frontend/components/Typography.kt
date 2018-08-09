@@ -1,17 +1,11 @@
 package frontend.components
 
 import frontend.containers.*
-import kotlinext.js.JsObject
-import kotlinext.js.Object
-import kotlinx.css.CSSBuilder
-import kotlinx.css.TextAlign
 import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
-import react.dom.span
-import styled.styled
-import styled.styledDiv
+
 
 @JsModule("@material-ui/core/Typography")
 external val reactTypography: RClassWithDefault<MuiTypographyProps>

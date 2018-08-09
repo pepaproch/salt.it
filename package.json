@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@jetbrains/kotlin-css": "^1.0.0-pre.31",
-    "@jetbrains/kotlin-css-js": "^1.0.0-pre.31",
-    "@jetbrains/kotlin-styled": "^1.0.0-pre.31",
+    "@jetbrains/kotlin-css": "^1.0.0-pre.35",
+    "@jetbrains/kotlin-css-js": "^1.0.0-pre.35",
+    "@jetbrains/kotlin-styled": "^1.0.0-pre.35",
     "@material-ui/core": "^1.4.0",
     "@material-ui/icons": "^1.1.0",
     "inline-style-prefixer": "^4.0.2",
