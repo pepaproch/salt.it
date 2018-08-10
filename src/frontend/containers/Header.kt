@@ -1,6 +1,7 @@
 package frontend.containers
 
 
+import app.AppState
 import frontend.components.MuiTypography
 import frontend.components.MuiTypographyColor
 
@@ -21,12 +22,10 @@ external val reactToolBar: RClassWithDefault<RProps>
 
 
 @JsModule("@material-ui/core/IconButton")
-external val reactIconButton: RClassWithDefault<RProps>
+external val reactIconButton: RClassWithDefault<DrawerButtonProps>
 
 @JsModule("@material-ui/core/Button")
 external val reactButton: RClassWithDefault<DrawerButtonProps>
-
-
 
 
 
@@ -48,29 +47,34 @@ interface DrawerButtonProps : RProps {
 interface AppBarrProps : StyledProps {
     var position: String
     var color: String
-    var pageTitle: String
-    var openDraver: () -> Unit
-
+    var handleDrawerOpen : () -> Unit
+    var drawerOpened : Boolean
 }
 
-interface AppBarrState : RState {
-    var pageTitle: String
 
-}
 
 object ComponentStyles : StyleSheet("HeaderStyles", isStatic = true) {
-    val wrapper by css {
-        padding(vertical = 16.px)
 
-        width = LinearDimension("100%")
+    var drawerWidth : LinearDimension = LinearDimension("240px")
+
+    val wrapper by css {
         display = Display.flex
     }
 
-var drawerWidth : LinearDimension = LinearDimension("200px")
+
+    val  appBar by css {
+        width = LinearDimension("100%")
+        marginLeft = LinearDimension("0")
+
+
+
+    }
 
   val  appBarShift by css {
-        marginLeft = LinearDimension("100px")
-        width = drawerWidth
+        width = LinearDimension("100%") - LinearDimension(drawerWidth.value)
+        marginLeft = LinearDimension(drawerWidth.value)
+
+
 
     }
 }
@@ -78,24 +82,22 @@ var drawerWidth : LinearDimension = LinearDimension("200px")
 
 
 
-class Header(props: AppBarrProps) : RComponent<AppBarrProps, AppBarrState>(props) {
+class Header(props: AppBarrProps) : RComponent<AppBarrProps, RState>(props) {
 
     private val appBar = styled(reactAppBar.default)
 
 
-    override fun AppBarrState.init(props: AppBarrProps) {
 
-        pageTitle = props.pageTitle
-
-
-    }
 
 
     override fun RBuilder.render() {
 
         appBar {
             css {
-                + ComponentStyles.appBarShift
+                when(props.drawerOpened) {
+                    false ->   +ComponentStyles.appBar
+                    true -> +ComponentStyles.appBarShift
+                }
             }
             attrs {
                 position = "static"
@@ -104,7 +106,9 @@ class Header(props: AppBarrProps) : RComponent<AppBarrProps, AppBarrState>(props
             }
 
             reactToolBar.default {
-                reactMenuIcon.default {
+                reactIconButton.default {
+
+                    attrs.onClick = props.handleDrawerOpen
                     reactMenuIcon.default {
 
                     }
@@ -119,7 +123,7 @@ class Header(props: AppBarrProps) : RComponent<AppBarrProps, AppBarrState>(props
                        css {
                            flexGrow = 1.0
                        }
-                       pageTitle(state.pageTitle)
+                       pageTitle("dddd")
                    }
 
 
@@ -135,18 +139,12 @@ class Header(props: AppBarrProps) : RComponent<AppBarrProps, AppBarrState>(props
 }
 
 
-fun RBuilder.header() = child(Header::class) {
-
-    attrs.pageTitle = "Vulnerable Koltin APP"
-
-
-}
 
 
 
 
 
-fun RBuilder.pageTitle(text: String) = child(MuiTypography::class) {
+fun RBuilder.pageTitle(text: String ) = child(MuiTypography::class) {
     attrs.variant = "headline"
     attrs.text = text
     attrs.color = MuiTypographyColor.PRIMARY.value
