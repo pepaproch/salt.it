@@ -5,7 +5,8 @@
     <scripts>
       <script value="start" />
     </scripts>
-    <node-interpreter value="node" />
+    <node-interpreter value="$USER_HOME$/.nvm/versions/node/v10.7.0/bin/node" />
+    <package-manager value="npm" />
     <envs />
     <method />
   </configuration>

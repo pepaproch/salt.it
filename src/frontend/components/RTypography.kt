@@ -1,6 +1,10 @@
+
+
 package frontend.components
 
 import frontend.containers.*
+import kotlinx.css.Color
+import kotlinx.css.hyphenize
 import react.RBuilder
 import react.RComponent
 import react.RProps
@@ -25,7 +29,8 @@ enum class MuiTypographyColor(val value: String) {
     TEXT_SECONDARY("textSecondary"),
     SECONDARY("secondary"),
     ERROR("ERROR"),
-    DEFAULT("default")
+    DEFAULT("default");
+    override fun toString() = value
 
 }
 
