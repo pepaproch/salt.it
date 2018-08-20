@@ -95,7 +95,7 @@ class Header(props: AppBarrProps) : RComponent<AppBarrProps, RState>(props) {
         appBar {
             css {
                 when(props.drawerOpened) {
-                    false ->   +ComponentStyles.appBar
+                    false -> +ComponentStyles.appBar
                     true -> +ComponentStyles.appBarShift
                 }
             }
