@@ -8,6 +8,7 @@ import frontend.components.leftMenu
 import frontend.components.materialui.Kth
 import frontend.components.materialui.MuiThemeProvider
 import frontend.components.materialui.Theme
+import frontend.components.materialui.Typography.Typography
 import frontend.components.materialui.createMuiTheme
 import frontend.containers.Header
 import frontend.containers.RClassWithDefault
@@ -59,6 +60,11 @@ class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
 
 
             leftDrawer(state.drawerOpen, content = { leftMenu({ togleDrawer(false) }) })
+
+            Typography(variant = "heading") {
+
+             + "sssssss"
+            }
 
         }    }
 }
