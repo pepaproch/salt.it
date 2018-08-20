@@ -22,6 +22,7 @@ external val reactToolBar: RClassWithDefault<RProps>
 
 
 @JsModule("@material-ui/core/IconButton")
+@JsName("default")
 external val reactIconButton: RClassWithDefault<DrawerButtonProps>
 
 @JsModule("@material-ui/core/Button")
@@ -49,6 +50,7 @@ interface AppBarrProps : StyledProps {
     var color: String
     var handleDrawerOpen : () -> Unit
     var drawerOpened : Boolean
+     var curentPage: String
 }
 
 
@@ -82,6 +84,7 @@ object ComponentStyles : StyleSheet("HeaderStyles", isStatic = true) {
 
 
 
+
 class Header(props: AppBarrProps) : RComponent<AppBarrProps, RState>(props) {
 
     private val appBar = styled(reactAppBar.default)
@@ -106,11 +109,13 @@ class Header(props: AppBarrProps) : RComponent<AppBarrProps, RState>(props) {
             }
 
             reactToolBar.default {
-                reactIconButton.default {
+                if(!props.drawerOpened) {
+                    reactIconButton.default {
 
-                    attrs.onClick = props.handleDrawerOpen
-                    reactMenuIcon.default {
+                        attrs.onClick = props.handleDrawerOpen
+                        reactMenuIcon.default {
 
+                        }
                     }
                 }
                 styledDiv {
@@ -123,7 +128,7 @@ class Header(props: AppBarrProps) : RComponent<AppBarrProps, RState>(props) {
                        css {
                            flexGrow = 1.0
                        }
-                       pageTitle("dddd")
+                       pageTitle(props.curentPage)
                    }
 
 
@@ -144,10 +149,10 @@ class Header(props: AppBarrProps) : RComponent<AppBarrProps, RState>(props) {
 
 
 
-fun RBuilder.pageTitle(text: String ) = child(MuiTypography::class) {
+fun RBuilder.pageTitle(text: String ): ReactElement = child(MuiTypography::class) {
     attrs.variant = "headline"
     attrs.text = text
-    attrs.color = MuiTypographyColor.PRIMARY.value
+    attrs.color = MuiTypographyColor.INHERIT.value
     attrs.align = TextAlign.right.toString()
 
 }

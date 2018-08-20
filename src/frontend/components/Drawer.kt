@@ -4,9 +4,7 @@ package frontend.components
 
 import frontend.containers.*
 import kotlinx.css.*
-import react.RBuilder
-import react.RComponent
-import react.RState
+import react.*
 import styled.*
 
 
@@ -20,9 +18,9 @@ var styledreactDrawer = styled(reactDrawer.default)
 
 interface MuiDrawerProps : StyledProps {
     var anchor: String
-    var onClose: () -> Unit
     var variant: String
     var open: Boolean
+    var content : () -> ReactElement
 
 }
 
@@ -49,37 +47,36 @@ object DrawerComponentStyles : StyleSheet("leftDrawer", isStatic = true) {
 }
 
 
+
+
 class MuiDrawer(props: MuiDrawerProps) : RComponent<MuiDrawerProps, MuiDrawerState>(props) {
 
 
     override fun RBuilder.render() {
 
         styledreactDrawer {
-           css {
-              + DrawerComponentStyles.drawerPaper
-               if(!props.open) {
-                   + DrawerComponentStyles.drawerPaperClose
-               }
 
-           }
+            css {
+                +DrawerComponentStyles.drawerPaper
+                if (!props.open) {
+                    +DrawerComponentStyles.drawerPaperClose
+                }
+
+            }
             attrs {
                 open = props.open
                 variant = props.variant
 
-            }
 
-            leftMenu()
+            }
+            child(props.content())
+
+
 
         }
     }
 
-}
-
-
-fun RBuilder.leftDrawer(open: Boolean) = child(MuiDrawer::class) {
-
-    attrs.anchor = "left"
-    attrs.variant = "persistent"
-    attrs.open = open
 
 }
+
+
