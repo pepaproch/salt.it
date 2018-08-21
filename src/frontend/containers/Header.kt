@@ -1,10 +1,9 @@
 package frontend.containers
 
 
-import app.AppState
-import frontend.components.MuiTypography
-import frontend.components.MuiTypographyColor
 
+import frontend.components.materialui.Typography.MuiTypographyVariant
+import frontend.components.materialui.Typography.Typography
 import kotlinx.css.*
 
 
@@ -104,7 +103,7 @@ class Header(props: AppBarrProps) : RComponent<AppBarrProps, RState>(props) {
             }
             attrs {
                 position = "static"
-                color = MuiTypographyColor.DEFAULT.value
+
 
             }
 
@@ -149,10 +148,7 @@ class Header(props: AppBarrProps) : RComponent<AppBarrProps, RState>(props) {
 
 
 
-fun RBuilder.pageTitle(text: String ): ReactElement = child(MuiTypography::class) {
-    attrs.variant = "headline"
-    attrs.text = text
-    attrs.color = MuiTypographyColor.INHERIT.value
-    attrs.align = TextAlign.right.toString()
+fun RBuilder.pageTitle(text: String ) = Typography(variant = MuiTypographyVariant.HEADLINE) {
 
++text
 }

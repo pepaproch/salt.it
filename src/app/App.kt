@@ -3,19 +3,20 @@ package app
 
 
 import frontend.components.MuiDrawer
-import frontend.components.MuiTypographyProps
+
 import frontend.components.leftMenu
-import frontend.components.materialui.Kth
-import frontend.components.materialui.MuiThemeProvider
-import frontend.components.materialui.Theme
+import frontend.components.materialui.Typography.MuiTypographyVariant
 import frontend.components.materialui.Typography.Typography
-import frontend.components.materialui.createMuiTheme
 import frontend.containers.Header
 import frontend.containers.RClassWithDefault
+import kotlinext.js.Object
 import react.*
 
 @JsModule("@material-ui/core/styles/MuiThemeProvider")
 external val reactTh: RClassWithDefault<RProps>
+
+@JsModule("@material-ui/core")
+external  val  ssss : Object
 
 
 interface AppState : RState {
@@ -52,7 +53,7 @@ class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
 
 
     override fun RBuilder.render() {
-        reactTh.default {
+ var propTypes = ssss
 
             header(opened = state.drawerOpen,
                     handleDrawerOpen = { togleDrawer(true) }, curentPage = state.currentPage)
@@ -61,12 +62,9 @@ class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
 
             leftDrawer(state.drawerOpen, content = { leftMenu({ togleDrawer(false) }) })
 
-            Typography(variant = "heading") {
 
-             + "sssssss"
-            }
 
-        }    }
+        }
 }
 
 fun RBuilder.app() = child(App::class) {
