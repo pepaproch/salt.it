@@ -7,19 +7,19 @@ import frontend.components.MuiDrawer
 import frontend.components.leftMenu
 import frontend.components.materialui.Typography.MuiTypographyVariant
 import frontend.components.materialui.Typography.Typography
+import frontend.components.materialui.theme.MuiThemeOptions
+import frontend.components.materialui.theme.MuiThemeProvider
+import frontend.components.materialui.theme.createMuiTheme
 import frontend.containers.Header
-import frontend.containers.RClassWithDefault
-import kotlinext.js.Object
+
 import react.*
 
-@JsModule("@material-ui/core/styles/MuiThemeProvider")
-external val reactTh: RClassWithDefault<RProps>
 
-@JsModule("@material-ui/core")
-external  val  ssss : Object
+
 
 
 interface AppState : RState {
+    var fontSize : Int
     var drawerOpen: Boolean
     var currentPage: String
 }
@@ -32,6 +32,7 @@ interface AppProp : RProps {
 
 
 class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
+
 
     private fun togleDrawer(open: Boolean) {
 
@@ -53,15 +54,19 @@ class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
 
 
     override fun RBuilder.render() {
- var propTypes = ssss
 
-            header(opened = state.drawerOpen,
-                    handleDrawerOpen = { togleDrawer(true) }, curentPage = state.currentPage)
+        var muiO = MuiThemeOptions.create {
+            typography { fontSize = 12 }
+        }
+        var theme = createMuiTheme(muiO)
+ MuiThemeProvider(theme) {
+     header(opened = state.drawerOpen,
+             handleDrawerOpen = { togleDrawer(true) }, curentPage = state.currentPage)
 
 
 
-            leftDrawer(state.drawerOpen, content = { leftMenu({ togleDrawer(false) }) })
-
+     leftDrawer(state.drawerOpen, content = { leftMenu({ togleDrawer(false) }) })
+ }
 
 
         }

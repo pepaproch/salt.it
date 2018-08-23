@@ -2,6 +2,7 @@ package frontend.components
 
 
 import frontend.components.materialui.*
+import frontend.components.materialui.list.list
 import kotlinx.css.*
 import react.RBuilder
 import react.RComponent
@@ -49,10 +50,8 @@ class LeftMenu(props: LeftMenuProps) : RComponent<LeftMenuProps, RState>(props) 
                 }
             }
             MuiDivider {}
-            MuiList {
-                css {
-                    put("width", "240px")
-                }
+            list{
+
                 MuiListItem {
 
                     attrs {
