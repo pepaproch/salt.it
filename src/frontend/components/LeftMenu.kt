@@ -3,6 +3,8 @@ package frontend.components
 
 import frontend.components.materialui.*
 import frontend.components.materialui.list.list
+import frontend.components.materialui.list.muiList
+import frontend.components.materialui.list.styledList
 import kotlinx.css.*
 import react.RBuilder
 import react.RComponent
@@ -12,6 +14,7 @@ import react.RState
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
+import styled.styledLi
 
 interface LeftMenuProps : RProps {
     var handleDrawerClose : () -> Unit
@@ -49,9 +52,14 @@ class LeftMenu(props: LeftMenuProps) : RComponent<LeftMenuProps, RState>(props) 
                     }
                 }
             }
-            MuiDivider {}
-            list{
 
+
+            MuiDivider {}
+           styledList {
+            css {
+                put("width" , "240px")
+
+            }
                 MuiListItem {
 
                     attrs {
