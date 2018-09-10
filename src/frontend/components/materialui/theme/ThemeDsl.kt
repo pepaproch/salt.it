@@ -4,6 +4,15 @@ import react.RBuilder
 import react.RHandler
 
 
+
+interface OverideOptions {
+    var component: String
+
+
+}
+
+
+
 class MuiThemeOptions private constructor(typography: TypographyThemeOptions?) : ThemeOptions {
 
     override var typography: TypographyThemeOptions? = typography

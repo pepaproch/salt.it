@@ -4,14 +4,15 @@ package app
 import frontend.components.MuiDrawer
 
 import frontend.components.leftMenu
-import frontend.components.materialui.Typography.MuiTypographyVariant
-import frontend.components.materialui.Typography.Typography
+
 import frontend.components.materialui.theme.MuiThemeOptions
 import frontend.components.materialui.theme.MuiThemeProvider
 import frontend.components.materialui.theme.createMuiTheme
 import frontend.containers.Header
 
 import react.*
+import react.router.dom.route
+import react.router.dom.switch
 
 
 interface AppState : RState {
@@ -38,6 +39,13 @@ class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
 
 	}
 
+	private fun setFontSize(size: Int) {
+
+		setState{
+			fontSize= size
+		}
+	}
+
 	override fun AppState.init(props: AppProp) {
 
 		drawerOpen = false
@@ -54,12 +62,17 @@ class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
 		}
 		var theme = createMuiTheme(muiO)
 		MuiThemeProvider(theme) {
+
 			header(opened = state.drawerOpen,
 					handleDrawerOpen = { togleDrawer(true) }, curentPage = state.currentPage)
-
-
-
 			leftDrawer(state.drawerOpen, content = { leftMenu({ togleDrawer(false) }) })
+			hasRouter {
+				switch {
+					route("/", IndexComponent::class, exact = true)
+					route("/login", strict = true) {
+					}
+				}
+			}
 		}
 
 
