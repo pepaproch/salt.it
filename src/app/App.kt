@@ -11,6 +11,10 @@ import frontend.components.materialui.theme.createMuiTheme
 import frontend.containers.Header
 
 import react.*
+import react.dom.h1
+import react.router.*
+import react.router.dom.hashRouter
+import react.router.dom.browserRouter
 import react.router.dom.route
 import react.router.dom.switch
 
@@ -61,16 +65,17 @@ class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
 			typography { fontSize = 12 }
 		}
 		var theme = createMuiTheme(muiO)
+		browserRouter {
 		MuiThemeProvider(theme) {
 
 			header(opened = state.drawerOpen,
 					handleDrawerOpen = { togleDrawer(true) }, curentPage = state.currentPage)
 			leftDrawer(state.drawerOpen, content = { leftMenu({ togleDrawer(false) }) })
-			hasRouter {
+
 				switch {
-					route("/", IndexComponent::class, exact = true)
-					route("/login", strict = true) {
-					}
+					route("/p1", render = ::p1 )
+					route("/p2", render = ::p2 )
+
 				}
 			}
 		}
@@ -78,6 +83,20 @@ class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
 
 	}
 }
+
+fun RBuilder.p1()  =  child(
+		h1{
+			+"PAGE 0"
+		}
+
+)
+
+fun RBuilder.p2()  =  child(
+		h1{
+			+"PAGE 2"
+		}
+
+)
 
 fun RBuilder.app() = child(App::class) {
 	attrs.initialPage = "Kotlin React App"

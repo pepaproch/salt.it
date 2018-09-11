@@ -11,6 +11,7 @@ import react.RComponent
 import react.RProps
 
 import react.RState
+import react.router.dom.navLink
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
@@ -60,23 +61,26 @@ class LeftMenu(props: LeftMenuProps) : RComponent<LeftMenuProps, RState>(props) 
                 put("width" , "240px")
 
             }
-                MuiListItem {
+               navLink ("p1") {
+                   MuiListItem {
 
-                    attrs {
-                        button = true
-                        divider = true
-                    }
-                    MuiListItemText {
-                        +"Hello "
-                    }
-                }
+                       attrs {
+                           button = true
+                           divider = true
+                       }
+                       MuiListItemText {
+                           +"Hello "
+                       }
+                   }
+               }
+               navLink ("p2") {
+                   MuiListItem {
 
-                MuiListItem {
-
-                    MuiListItemText {
-                        attrs { primary = "Heloo" }
-                    }
-                }
+                       MuiListItemText {
+                           attrs { primary = "Heloo" }
+                       }
+                   }
+               }
             }
         }
     }

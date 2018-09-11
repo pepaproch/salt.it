@@ -6,8 +6,8 @@ import react.RHandler
 
 
 interface OverideOptions {
-    var component: String
-
+    val component: String
+    var  mutableList?
 
 }
 
