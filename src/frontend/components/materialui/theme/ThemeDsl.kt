@@ -1,17 +1,21 @@
 package frontend.components.materialui.theme
 
+import kotlinx.css.RuleSet
 import react.RBuilder
 import react.RHandler
 
 
+data class OverideComponentOptions (val selectorName : String , val ruleSet: RuleSet )
+data class OverideOptions(val component: String )
 
-interface OverideOptions {
-    val component: String
-    var  mutableList?
 
+class OverideBuilder {
+
+    fun build(): OverideOptions {
+     return   OverideOptions("")
+    }
 }
-
-
+val OverideBuilder.muiSlider :ComponentSelector get() = ComponentSelector("MuiSlider")
 
 class MuiThemeOptions private constructor(typography: TypographyThemeOptions?) : ThemeOptions {
 
@@ -27,9 +31,13 @@ class MuiThemeOptions private constructor(typography: TypographyThemeOptions?) :
         }
 
         var typography: TypographyThemeOptions? = null
-
+        var overides : OverideOptions ? = null
         fun typography(block: MuiTypographyThemeOptions.Builder.() -> Unit) {
             typography = MuiTypographyThemeOptions.Builder().apply(block).build()
+        }
+
+        fun overides(block : OverideBuilder.()-> Unit) {
+           overides =  OverideBuilder().apply(block).build()
         }
 
         fun build() = MuiThemeOptions(typography)
