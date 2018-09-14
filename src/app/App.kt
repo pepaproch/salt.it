@@ -8,12 +8,13 @@ import frontend.components.leftMenu
 import frontend.components.materialui.theme.MuiThemeOptions
 import frontend.components.materialui.theme.MuiThemeProvider
 import frontend.components.materialui.theme.createMuiTheme
+import frontend.components.materialui.theme.muiSlider
+
 import frontend.containers.Header
 
 import react.*
 import react.dom.h1
-import react.router.*
-import react.router.dom.hashRouter
+
 import react.router.dom.browserRouter
 import react.router.dom.route
 import react.router.dom.switch
@@ -63,6 +64,7 @@ class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
 
 		var muiO = MuiThemeOptions.create {
 			typography { fontSize = 12 }
+			overides { muiSlider {} }
 		}
 		var theme = createMuiTheme(muiO)
 		browserRouter {
