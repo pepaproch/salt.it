@@ -5,7 +5,8 @@
     <scripts>
       <script value="start" />
     </scripts>
-    <node-interpreter value="node" />
+    <node-interpreter value="C:/Program Files/nodejs/node" />
+    <package-manager value="npm" />
     <envs />
     <method />
   </configuration>

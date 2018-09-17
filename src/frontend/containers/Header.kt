@@ -1,13 +1,15 @@
 package frontend.containers
 
 
-import frontend.components.MuiTypography
+
+import frontend.components.materialui.Typography.MuiTypographyVariant
+import frontend.components.materialui.Typography.Typography
 import kotlinx.css.*
-import kotlinx.html.DIV
-import logo.logo
+
+
 import react.*
-import react.dom.WithClassName
 import styled.*
+
 import kotlin.reflect.KClass
 
 
@@ -19,14 +21,12 @@ external val reactToolBar: RClassWithDefault<RProps>
 
 
 @JsModule("@material-ui/core/IconButton")
-external val reactIconButton: RClassWithDefault<RProps>
+@JsName("default")
+external val reactIconButton: RClassWithDefault<DrawerButtonProps>
 
 @JsModule("@material-ui/core/Button")
-external val reactButton: RClassWithDefault<RProps>
+external val reactButton: RClassWithDefault<DrawerButtonProps>
 
-
-@JsModule("@material-ui/core/Typography")
-external val reactTypography: RClassWithDefault<ReactAppBarTypography>
 
 
 @JsModule("@material-ui/icons/Menu")
@@ -39,108 +39,116 @@ abstract class RClassWithDefault<T : RProps> : RClass<T>, KClass<Any> {
 
 }
 
-
-external interface ReactAppBarProps : RProps {
-    var title: String
-    var typography: ReactAppBarTypography
-
-
+interface DrawerButtonProps : RProps {
+    var onClick: () -> Unit
 
 }
 
-
-external interface ReactAppBarTypography : WithClassName {
-    var title: String
-    var variant: String
-    var align: String
-    override var className: String?
-    var color: String
-
-}
-
-
-
-
-
-interface AppBarrProps : RProps {
-    var title: String
+interface AppBarrProps : StyledProps {
     var position: String
     var color: String
+    var handleDrawerOpen : () -> Unit
+    var drawerOpened : Boolean
+     var curentPage: String
 }
 
-interface AppBarrState : RState {
-    var pageTitle: String
-
-}
-
-class Header(props: ReactAppBarProps) : RComponent<ReactAppBarProps, AppBarrState>(props) {
-
-    private val appBar = reactAppBar.default
-    private val toolBar = reactToolBar.default
-    private val iconButton = reactIconButton.default
-    private val menuIcon = reactMenuIcon.default
-    private val button = reactButton.default
-    private val typoography = reactTypography.default
 
 
-    override fun AppBarrState.init(props: ReactAppBarProps) {
+object ComponentStyles : StyleSheet("HeaderStyles", isStatic = true) {
 
-            pageTitle = props.title
+    var drawerWidth : LinearDimension = LinearDimension("240px")
+
+    val wrapper by css {
+        display = Display.flex
+    }
+
+
+    val  appBar by css {
+        width = LinearDimension("100%")
+        marginLeft = LinearDimension("0")
 
 
 
     }
+
+  val  appBarShift by css {
+        width = LinearDimension("100%") - LinearDimension(drawerWidth.value)
+        marginLeft = LinearDimension(drawerWidth.value)
+
+
+
+    }
+}
+
+
+
+
+
+class Header(props: AppBarrProps) : RComponent<AppBarrProps, RState>(props) {
+
+    private val appBar = styled(reactAppBar.default)
+
+
+
 
 
     override fun RBuilder.render() {
 
-        reactAppBar.default {
+        appBar {
+            css {
+                when(props.drawerOpened) {
+                    false -> +ComponentStyles.appBar
+                    true -> +ComponentStyles.appBarShift
+                }
+            }
             attrs {
                 position = "static"
-                color = "default"
-                title = props.title
+
 
             }
-            reactToolBar.default {
-                iconButton {
-                    menuIcon {
 
+            reactToolBar.default {
+                if(!props.drawerOpened) {
+                    reactIconButton.default {
+
+                        attrs.onClick = props.handleDrawerOpen
+                        reactMenuIcon.default {
+
+                        }
                     }
                 }
+                styledDiv {
+                    css  {
+                        + ComponentStyles.wrapper
 
-                styled(reactTypography )
-            }
+                    }
+
+                   styledDiv {
+                       css {
+                           flexGrow = 1.0
+                       }
+                       pageTitle(props.curentPage)
+                   }
 
 
 
-                logo()
                 }
-
-
-
-
             }
-
-
+        }
 
 
     }
-
-
-
-
-class typo(override var title: String = "Page Title", override var variant: String = "title", override var align: String = "left", override var color: String = "primary", override var className: String?) : ReactAppBarTypography
-
-
-
-fun RBuilder.header(title: String) = child(Header::class) {
-
-    attrs.title = title
-    attrs.typography = typo(align = "right" ,color = "primary" , className = "ReactTypoGraphy")
-
 
 
 }
 
 
 
+
+
+
+
+fun RBuilder.pageTitle(text: String ) = Typography(variant = MuiTypographyVariant.HEADLINE) {
+
++text
+}
