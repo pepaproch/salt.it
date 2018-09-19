@@ -64,7 +64,11 @@ class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
 
 		var muiO = MuiThemeOptions.create {
 			typography { fontSize = 12 }
-			overides { muiSlider {} }
+			overides { muiSlider {
+				"track" {
+
+				}
+			} }
 		}
 		var theme = createMuiTheme(muiO)
 		browserRouter {
