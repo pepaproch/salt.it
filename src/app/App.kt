@@ -11,6 +11,7 @@ import frontend.components.materialui.theme.createMuiTheme
 import frontend.components.materialui.theme.muiSlider
 
 import frontend.containers.Header
+import kotlinx.css.LinearDimension
 
 import react.*
 import react.dom.h1
@@ -46,8 +47,8 @@ class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
 
 	private fun setFontSize(size: Int) {
 
-		setState{
-			fontSize= size
+		setState {
+			fontSize = size
 		}
 	}
 
@@ -64,23 +65,25 @@ class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
 
 		var muiO = MuiThemeOptions.create {
 			typography { fontSize = 12 }
-			overides { muiSlider {
-				"track" {
-
+			overides {
+				muiSlider {
+					"track" {
+						fontSize = LinearDimension("12px")
+					}
 				}
-			} }
+			}
 		}
 		var theme = createMuiTheme(muiO)
 		browserRouter {
-		MuiThemeProvider(theme) {
+			MuiThemeProvider(theme) {
 
-			header(opened = state.drawerOpen,
-					handleDrawerOpen = { togleDrawer(true) }, curentPage = state.currentPage)
-			leftDrawer(state.drawerOpen, content = { leftMenu({ togleDrawer(false) }) })
+				header(opened = state.drawerOpen,
+						handleDrawerOpen = { togleDrawer(true) }, curentPage = state.currentPage)
+				leftDrawer(state.drawerOpen, content = { leftMenu({ togleDrawer(false) }) })
 
 				switch {
-					route("/p1", render = ::p1 )
-					route("/p2", render = ::p2 )
+					route("/p1", render = ::p1)
+					route("/p2", render = ::p2)
 
 				}
 			}
@@ -90,15 +93,15 @@ class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
 	}
 }
 
-fun RBuilder.p1()  =  child(
-		h1{
+fun RBuilder.p1() = child(
+		h1 {
 			+"PAGE 0"
 		}
 
 )
 
-fun RBuilder.p2()  =  child(
-		h1{
+fun RBuilder.p2() = child(
+		h1 {
 			+"PAGE 2"
 		}
 

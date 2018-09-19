@@ -5,9 +5,9 @@
     <scripts>
       <script value="start" />
     </scripts>
-    <node-interpreter value="$USER_HOME$/.nvm/versions/node/v10.6.0/bin/node" />
+    <node-interpreter value="C:/Program Files/nodejs/node" />
     <package-manager value="npm" />
     <envs />
-    <method v="2" />
+    <method />
   </configuration>
 </component>

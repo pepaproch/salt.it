@@ -1,93 +1,123 @@
 package frontend.components.materialui.theme
 
+
 import kotlinx.css.CSSBuilder
-import kotlinx.css.StyledElement
+
 import react.RBuilder
 import react.RHandler
 
 
 typealias RuleSet = CSSBuilder.() -> Unit
-typealias OptionsSet = OverideBuilder.() -> Unit
+typealias OptionsSet = OverrideBuilder.() -> Unit
+
 
 interface OverideOptionWrapper {
-    val overideRules: MutableList<OverrideComponentOptions>
-    fun overideOption(selector: String , block : OptionsSet)
+	val overideRules: MutableList<OverrideComponentOptions>
+	fun overideOption(selector: String, block: OptionsSet)
 
 }
 
-data class OverrideComponentOptions(val componentName: String, val classesSet: OverideBuilder.() -> Unit)
-data class OverrideClassOptions(val className: String, val rulesSet: RuleSet)
+data class OverrideComponentOptions(val componentName: String, val classesSet: dynamic)
+data class OverrideClassOptions(val className: String, val rulesSet: dynamic)
+
+
+class OverrideBuilder {
+
+	val componentSelectors: MutableList<OverrideComponentOptions> = mutableListOf()
+	operator fun String.invoke(block: OverrideClassOptionBuilder.() -> Unit) = componentOverride(this, block)
+	operator fun ComponentSelector.invoke(block: OverrideClassOptionBuilder.() -> Unit) = componentName(block)
+	fun build(): dynamic {
+		val js = js("{}")
+		componentSelectors.forEach {
+			js[it.componentName] = it.classesSet
+		}
+
+		return js
+	}
+
+	private fun componentOverride(componentSelector: String, block: OverrideClassOptionBuilder.() -> Unit) = apply {
+		val build = OverrideClassOptionBuilder().apply(block).build()
+		componentSelectors.add(OverrideComponentOptions(componentSelector, build))
+	}
 
 
 
 
-class OverideBuilder {
-
-
-    val overideComponentRules: MutableList<OverrideComponentOptions> = mutableListOf()
-
-    operator fun String.invoke(block: OverideBuilder.() -> Unit) = componentOverride(this,block)
-
-    operator fun ComponentSelector.invoke(block: OverideBuilder.() -> Unit) = componentName(block)
-
-    fun build(): MutableList<OverrideComponentOptions>{
-
-        return overideComponentRules
-    }
-    private fun componentOverride(componentSelector: String, block: OptionsSet): OverrideComponentOptions = OverrideComponentOptions(componentSelector,block).apply {
-        overideComponentRules.add(this)
-    }
 }
 
 
+class OverrideClassOptionBuilder {
 
-class MuiThemeOptions private constructor(typography: TypographyThemeOptions? , overrides :  OverrideComponentOptions?) : ThemeOptions {
+	val css = CSSBuilder(allowClasses = false)
 
-    override var typography: TypographyThemeOptions? = typography
+	val classSelectors: MutableList<OverrideClassOptions> = mutableListOf()
+	operator fun String.invoke(block: OverrideClassOptionBuilder.() -> Unit) = classOverride(this, block)
 
 
-    private constructor(builder: Builder) : this(builder.typography , builder.overrides)
+	fun build(): dynamic {
 
-    class Builder private constructor() {
+		val js = js("{}")
+		classSelectors.forEach {
+			js[it.className] = css.apply(it.rulesSet)
+		}
 
-        constructor(init: Builder.() -> Unit) : this() {
-            init()
-        }
+		return js
+	}
 
-        var typography: TypographyThemeOptions? = null
-        var overrides :OverrideComponentOptions? = null
+	private fun classOverride(classSelector: String, block: RuleSet) = OverrideClassOptions(classSelector, block).apply {
+		css.block()
+		classSelectors.add(this)
+	}
+}
 
-        fun typography(block: MuiTypographyThemeOptions.Builder.() -> Unit) {
-            typography = MuiTypographyThemeOptions.Builder().apply(block).build()
-        }
 
-        fun overides(block: OverideBuilder.() -> Unit) {
-            overrides = OverideBuilder().apply(block).build()
-        }
+class MuiThemeOptions private constructor(typography: TypographyThemeOptions?, overrides: OverrideComponentOptions?) : ThemeOptions {
 
-        fun build() = MuiThemeOptions(typography ,overrides)
+	override var typography: TypographyThemeOptions? = typography
 
-    }
 
-    companion object {
-        fun create(init: Builder.() -> Unit) = Builder(init).build()
-    }
+	private constructor(builder: Builder) : this(builder.typography, builder.overrides)
+
+	class Builder private constructor() {
+
+		constructor(init: Builder.() -> Unit) : this() {
+			init()
+		}
+
+		var typography: TypographyThemeOptions? = null
+		var overrides: dynamic = null
+
+		fun typography(block: MuiTypographyThemeOptions.Builder.() -> Unit) {
+			typography = MuiTypographyThemeOptions.Builder().apply(block).build()
+		}
+
+		fun overides(block: OverrideBuilder.() -> Unit) {
+			overrides = OverrideBuilder().apply(block).build()
+		}
+
+		fun build() = MuiThemeOptions(typography, overrides)
+
+	}
+
+	companion object {
+		fun create(init: Builder.() -> Unit) = Builder(init).build()
+	}
 
 }
 
 
 class MuiTypographyThemeOptions(override var fontSize: Int?) : TypographyThemeOptions {
 
-    class Builder {
-        var fontSize: Int? = null
+	class Builder {
+		var fontSize: Int? = null
 
-        fun build() = MuiTypographyThemeOptions(fontSize)
-    }
+		fun build() = MuiTypographyThemeOptions(fontSize)
+	}
 
 
 }
 
 fun RBuilder.MuiThemeProvider(theme: Theme, handler: RHandler<ThemeProps>) = child(MuiThemeProvider::class) {
-    attrs.theme = theme
-    handler()
+	attrs.theme = theme
+	handler()
 }
