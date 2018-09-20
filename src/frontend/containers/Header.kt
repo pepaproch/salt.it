@@ -2,6 +2,7 @@ package frontend.containers
 
 
 
+import frontend.components.materialui.Slider.slider
 import frontend.components.materialui.Typography.MuiTypographyVariant
 import frontend.components.materialui.Typography.Typography
 import kotlinx.css.*
@@ -129,6 +130,9 @@ class Header(props: AppBarrProps) : RComponent<AppBarrProps, RState>(props) {
                        }
                        pageTitle(props.curentPage)
                    }
+                    styledDiv {
+                        slider {  }
+                    }
 
 
 

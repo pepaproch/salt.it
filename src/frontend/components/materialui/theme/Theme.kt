@@ -44,7 +44,7 @@ external interface ThemeOptions {
 //   var breakpoints: Object
 //   var direction: Object
 //   var mixins: Object
-//   var overrides: Object
+ var overrides: dynamic?
 //    var palette: Object
 //    var props: Object
 //   var shadows: Object

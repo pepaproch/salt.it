@@ -1,7 +1,9 @@
 package frontend.components.materialui.theme
 
 
+import kotlinext.js.asJsObject
 import kotlinx.css.CSSBuilder
+import kotlinx.css.hyphenize
 
 import react.RBuilder
 import react.RHandler
@@ -11,14 +13,8 @@ typealias RuleSet = CSSBuilder.() -> Unit
 typealias OptionsSet = OverrideBuilder.() -> Unit
 
 
-interface OverideOptionWrapper {
-	val overideRules: MutableList<OverrideComponentOptions>
-	fun overideOption(selector: String, block: OptionsSet)
-
-}
-
 data class OverrideComponentOptions(val componentName: String, val classesSet: dynamic)
-data class OverrideClassOptions(val className: String, val rulesSet: dynamic)
+data class OverrideClassOptions(val className: String, val rulesSet: LinkedHashMap<String, Any>)
 
 
 class OverrideBuilder {
@@ -41,8 +37,6 @@ class OverrideBuilder {
 	}
 
 
-
-
 }
 
 
@@ -51,29 +45,37 @@ class OverrideClassOptionBuilder {
 	val css = CSSBuilder(allowClasses = false)
 
 	val classSelectors: MutableList<OverrideClassOptions> = mutableListOf()
-	operator fun String.invoke(block: OverrideClassOptionBuilder.() -> Unit) = classOverride(this, block)
+	operator fun String.invoke(block: CSSBuilder.() -> Unit) = classOverride(this, block)
 
 
 	fun build(): dynamic {
 
 		val js = js("{}")
 		classSelectors.forEach {
-			js[it.className] = css.apply(it.rulesSet)
+			val content = js("{}")
+
+			it.rulesSet.forEach {
+			content[it.key.hyphenize()] = it.value
+			}
+
+			js[it.className] = content
 		}
 
 		return js
 	}
 
-	private fun classOverride(classSelector: String, block: RuleSet) = OverrideClassOptions(classSelector, block).apply {
-		css.block()
-		classSelectors.add(this)
+	private fun classOverride(classSelector: String, block: RuleSet) = apply {
+		val asJsObject =css.apply(block)
+		val declarations = css.declarations
+		classSelectors.add(OverrideClassOptions(classSelector, declarations))
 	}
 }
 
 
-class MuiThemeOptions private constructor(typography: TypographyThemeOptions?, overrides: OverrideComponentOptions?) : ThemeOptions {
+class MuiThemeOptions private constructor(typography: TypographyThemeOptions?, overrides: dynamic?) : ThemeOptions {
 
 	override var typography: TypographyThemeOptions? = typography
+	override  var overrides : dynamic? = overrides
 
 
 	private constructor(builder: Builder) : this(builder.typography, builder.overrides)
@@ -91,7 +93,7 @@ class MuiThemeOptions private constructor(typography: TypographyThemeOptions?, o
 			typography = MuiTypographyThemeOptions.Builder().apply(block).build()
 		}
 
-		fun overides(block: OverrideBuilder.() -> Unit) {
+		fun overrides(block: OverrideBuilder.() -> Unit) {
 			overrides = OverrideBuilder().apply(block).build()
 		}
 

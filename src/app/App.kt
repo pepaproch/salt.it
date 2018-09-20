@@ -11,6 +11,7 @@ import frontend.components.materialui.theme.createMuiTheme
 import frontend.components.materialui.theme.muiSlider
 
 import frontend.containers.Header
+import kotlinx.css.Color
 import kotlinx.css.LinearDimension
 
 import react.*
@@ -64,11 +65,11 @@ class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
 	override fun RBuilder.render() {
 
 		var muiO = MuiThemeOptions.create {
-			typography { fontSize = 12 }
-			overides {
+			overrides {
 				muiSlider {
-					"track" {
-						fontSize = LinearDimension("12px")
+					"root" {
+						backgroundColor = Color.white
+						color= Color.green
 					}
 				}
 			}
