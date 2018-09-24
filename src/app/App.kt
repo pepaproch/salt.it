@@ -4,13 +4,10 @@ package app
 import frontend.components.MuiDrawer
 
 import frontend.components.leftMenu
-
-import frontend.components.materialui.theme.MuiThemeOptions
-import frontend.components.materialui.theme.MuiThemeProvider
-import frontend.components.materialui.theme.createMuiTheme
-import frontend.components.materialui.theme.muiSlider
+import frontend.components.materialui.theme.*
 
 import frontend.containers.Header
+import kotlinext.js.asJsObject
 import kotlinx.css.Color
 import kotlinx.css.LinearDimension
 
@@ -65,16 +62,30 @@ class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
 	override fun RBuilder.render() {
 
 		var muiO = MuiThemeOptions.create {
+			typography { fontSize = 12 }
 			overrides {
 				muiSlider {
-					"root" {
+					"track" {
 						backgroundColor = Color.white
-						color= Color.green
+
 					}
+					"thumb" {
+						backgroundColor = Color.white
+					}
+				}
+				muiIconButton{
+					"root"{
+						color = Color.white
+					}
+
 				}
 			}
 		}
-		var theme = createMuiTheme(muiO)
+
+
+
+
+		var theme = createMuiTheme(muiO.toJsThemeOptions())
 		browserRouter {
 			MuiThemeProvider(theme) {
 

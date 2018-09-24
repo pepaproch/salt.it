@@ -61,6 +61,7 @@ object ComponentStyles : StyleSheet("HeaderStyles", isStatic = true) {
 
     val wrapper by css {
         display = Display.flex
+        width = LinearDimension("100%")
     }
 
 
@@ -131,6 +132,9 @@ class Header(props: AppBarrProps) : RComponent<AppBarrProps, RState>(props) {
                        pageTitle(props.curentPage)
                    }
                     styledDiv {
+                        css {
+                            flexGrow = 3.0
+                        }
                         slider {  }
                     }
 

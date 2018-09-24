@@ -55,7 +55,7 @@ class OverrideClassOptionBuilder {
 			val content = js("{}")
 
 			it.rulesSet.forEach {
-			content[it.key.hyphenize()] = it.value
+			content[it.key] = it.value.toString()
 			}
 
 			js[it.className] = content
@@ -72,10 +72,9 @@ class OverrideClassOptionBuilder {
 }
 
 
-class MuiThemeOptions private constructor(typography: TypographyThemeOptions?, overrides: dynamic?) : ThemeOptions {
+class MuiThemeOptions private constructor(override var typography: TypographyThemeOptions?, override  var  overrides: dynamic? = js("{}")) : ThemeOptions {
 
-	override var typography: TypographyThemeOptions? = typography
-	override  var overrides : dynamic? = overrides
+
 
 
 	private constructor(builder: Builder) : this(builder.typography, builder.overrides)
@@ -97,12 +96,21 @@ class MuiThemeOptions private constructor(typography: TypographyThemeOptions?, o
 			overrides = OverrideBuilder().apply(block).build()
 		}
 
-		fun build() = MuiThemeOptions(typography, overrides)
+		fun build()  = MuiThemeOptions(typography, overrides)
 
 	}
 
 	companion object {
 		fun create(init: Builder.() -> Unit) = Builder(init).build()
+	}
+
+	fun toJsThemeOptions(): dynamic {
+		val js = js("{}")
+		 js["overrides"] = overrides
+		 js["typography"] = typography
+
+		return  js
+
 	}
 
 }

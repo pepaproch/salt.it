@@ -6,7 +6,7 @@ import kotlinext.js.Object
 import react.*
 
 external  fun createMuiTheme(): Theme
-external  fun createMuiTheme(options: ThemeOptions?) : Theme
+external  fun createMuiTheme(options: dynamic?) : Theme
 
 
 external interface ThemeProps: RProps {
