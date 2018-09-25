@@ -11,14 +11,14 @@ const KotlinWebpackPlugin = require('@jetbrains/kotlin-webpack-plugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 
-// Webpack uses `publicPath` to determine where the app is being served from.
+// Webpack uses `publicPath` to determine where the frontend.app is being served from.
 // In development, we always serve from the root. This makes config easier.
 const publicPath = '/';
-// `publicUrl` is just like `publicPath`, but we will provide it to our app
+// `publicUrl` is just like `publicPath`, but we will provide it to our frontend.app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
 const publicUrl = '';
-// Get environment variables to inject into our app.
+// Get environment variables to inject into our frontend.app.
 const env = getClientEnvironment(publicUrl);
 
 // This is the development configuration.
@@ -48,9 +48,9 @@ module.exports = {
     require.resolve('react-dev-utils/webpackHotDevClient'),
     // We ship a few polyfills by default:
     require.resolve('./polyfills'),
-    // Finally, this is your app's code:
+    // Finally, this is your frontend.app's code:
     kotlinModuleName,
-    // We include the app code last so that if there is a runtime error during
+    // We include the frontend.app code last so that if there is a runtime error during
     // initialization, it doesn't blow up the WebpackDevServer client, and
     // changing JS code would still trigger a refresh.
   ],
@@ -65,7 +65,7 @@ module.exports = {
     filename: 'static/js/bundle.js',
     // There are also additional JS chunk files if you use code splitting.
     chunkFilename: 'static/js/[name].chunk.js',
-    // This is the URL that app is served from. We use "/" in development.
+    // This is the URL that frontend.app is served from. We use "/" in development.
     publicPath: publicPath,
     // Point sourcemap entries to original disk location
     devtoolModuleFilenameTemplate: info =>

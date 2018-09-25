@@ -1,4 +1,4 @@
-package app
+package frontend.app
 
 
 import frontend.components.MuiDrawer

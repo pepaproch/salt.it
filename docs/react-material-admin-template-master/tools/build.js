@@ -26,7 +26,7 @@ webpack(config).run((error, stats) => {
 
   console.log(`Webpack stats: ${stats}`);
 
-  console.log(chalkSuccess('Your app is compiled in production mode in /dist. It\'s ready to roll!'));
+  console.log(chalkSuccess('Your frontend.app is compiled in production mode in /dist. It\'s ready to roll!'));
 
   return 0;
 });
