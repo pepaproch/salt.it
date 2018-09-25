@@ -58,8 +58,16 @@ class App(props: AppProp) : RComponent<AppProp, AppState>(props) {
 
 	}
 
+	override fun componentDidMount() {
+		launch{
+
+		}
+
+	}
 
 	override fun RBuilder.render() {
+
+
 
 		var muiO = MuiThemeOptions.create {
 			typography { fontSize = 12 }
